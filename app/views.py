@@ -77,3 +77,21 @@ def change_password(request):
         return HttpResponseRedirect(reverse('user_login'))
     return render(request,'change_password.html')
 
+
+def reset_password(request):
+    if request.method=='POST':
+        username=request.POST['username']    
+        npw=request.POST['npw']
+        LUSO=User.objects.filter(username=username)
+        if LUSO:
+            LUSO[0].set_password(npw)
+            LUSO[0].save()
+
+                
+            return HttpResponseRedirect(reverse('user_login'))
+            
+        else:
+            return HttpResponse('Username is not available in my data abse')
+    return render(request,'reset_password.html')
+    
+
